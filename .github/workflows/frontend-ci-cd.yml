@@ -1,0 +1,82 @@
+name: Frontend CI/CD (Angular)
+
+on:
+  push:
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-ci-cd.yml'
+  pull_request:
+    paths:
+      - 'frontend/**'
+
+jobs:
+  build:
+    runs-on: [self-hosted, windows]
+    defaults:
+      run:
+        shell: cmd
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: |
+          
+          npm ci
+      - name: Build Angular app
+        run: |
+          
+          npm run build -- --output-path=dist
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: angular-dist
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: [self-hosted, windows]
+    if: github.ref == 'refs/heads/master'
+    defaults:
+      run:
+        shell: cmd
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: angular-dist
+          path: C:/Users/devops_agentic/Desktop/DeployFrontend
+      - name: Remove old frontend files
+        run: |
+          if exist C:\Users\devops_agentic\Desktop\DeployFrontend\* rmdir /s /q C:\Users\devops_agentic\Desktop\DeployFrontend
+          mkdir C:\Users\devops_agentic\Desktop\DeployFrontend
+      - name: Copy new build to deployment folder
+        run: |
+          xcopy /E /I /Y C:\Users\devops_agentic\Desktop\DeployFrontend\* C:\inetpub\wwwroot\
+      - name: Show deployed files
+        run: dir C:\inetpub\wwwroot\
+      - name: Ensure IIS is installed
+        shell: powershell
+        run: |
+          if (-not (Get-WindowsFeature -Name Web-Server).Installed) {
+            Install-WindowsFeature -Name Web-Server
+          }
+      - name: Start IIS service
+        shell: powershell
+        run: Start-Service W3SVC
+      - name: Restart Default Web Site
+        shell: powershell
+        run: Restart-WebAppPool -Name 'DefaultAppPool'; Restart-WebSite -Name 'Default Web Site'
+      - name: Check site is up
+        shell: powershell
+        run: |
+          $response = Invoke-WebRequest -Uri 'http://localhost/' -UseBasicParsing
+          if ($response.StatusCode -eq 200) {
+            Write-Host 'Angular app is up and running!'
+          } else {
+            Write-Host 'Angular app is not reachable.'
+            exit 1
+          }
