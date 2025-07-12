@@ -67,9 +67,8 @@ jobs:
       - name: Restart Default Web Site
         shell: powershell
         run: |
-          Import-Module WebAdministration
-          Restart-WebAppPool -Name 'DefaultAppPool'
-          Restart-WebSite -Name 'Default Web Site'
+          & 'C:\Windows\System32\inetsrv\appcmd.exe' stop site 'Default Web Site'
+          & 'C:\Windows\System32\inetsrv\appcmd.exe' start site 'Default Web Site'
       - name: Check site is up
         shell: powershell
         run: |
