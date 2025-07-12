@@ -1,0 +1,108 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+body {
+  background: #f8f9fa;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border-radius: 10px;
+  padding: 2rem;
+}
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+header h1 {
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+header p {
+  color: #4a5568;
+}
+.products ul {
+  list-style: none;
+  padding: 0;
+}
+.products li {
+  background: #f1f5f9;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.products span {
+  color: #3182ce;
+  font-weight: bold;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 400px;
+}
+.contact-form input,
+.contact-form textarea {
+  padding: 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.contact-form button {
+  background: #3182ce;
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.contact-form button:hover {
+  background: #2563eb;
+}
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  color: #a0aec0;
+  font-size: 0.95rem;
+}
+}
