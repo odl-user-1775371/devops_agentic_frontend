@@ -49,10 +49,7 @@ jobs:
         with:
           name: angular-dist
           path: C:/Users/devops_agentic/Desktop/DeployFrontend
-      - name: Remove old frontend files
-        run: |
-          if exist C:\Users\devops_agentic\Desktop\DeployFrontend\* rmdir /s /q C:\Users\devops_agentic\Desktop\DeployFrontend
-          mkdir C:\Users\devops_agentic\Desktop\DeployFrontend
+     
       - name: Copy new build to deployment folder
         run: |
           xcopy /E /I /Y C:\Users\devops_agentic\Desktop\DeployFrontend\* C:\inetpub\wwwroot\
